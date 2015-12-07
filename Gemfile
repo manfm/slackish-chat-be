@@ -26,6 +26,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'omniauth'
 gem 'devise_token_auth'
 gem 'rack-cors', :require => 'rack/cors'
+
+gem 'faye-websocket', '0.10.0' # newer version cause handshake timeout
+gem 'websocket-rails'
+gem 'thin'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -48,4 +52,5 @@ group :development do
   gem 'spring'
 end
 
+ruby "2.2.1"
 gem 'rails_12factor', group: :production
