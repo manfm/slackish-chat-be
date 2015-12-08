@@ -5,8 +5,10 @@ WebsocketRails::EventMap.describe do
   #
   # Uncomment and edit the next line to handle the client connected event:
   subscribe :client_connected, 'Chat#connected'
-  # subscribe :client_disconnected, 'Chat#disconnected'
-  # subscribe :connection_closed, 'Chat#disconnected'
+
+  subscribe :client_disconnected, 'Chat#disconnected'
+  subscribe :connection_closed, 'Chat#disconnected'
+
   namespace :websocket_rails do
     subscribe :subscribe_private, 'Chat#authorize_user_channel'
   end
