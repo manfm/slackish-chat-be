@@ -11,10 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151205060833) do
+ActiveRecord::Schema.define(version: 20151208125753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chat_room_messages", force: :cascade do |t|
+    t.string   "text"
+    t.boolean  "incomming"
+    t.integer  "sender_id"
+    t.integer  "user_id"
+    t.integer  "chat_room_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "chat_room_messages", ["chat_room_id"], name: "index_chat_room_messages_on_chat_room_id", using: :btree
+  add_index "chat_room_messages", ["user_id"], name: "index_chat_room_messages_on_user_id", using: :btree
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "last_message_at"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "chat_rooms_users", id: false, force: :cascade do |t|
+    t.integer "user_id",      null: false
+    t.integer "chat_room_id", null: false
+  end
 
   create_table "private_messages", force: :cascade do |t|
     t.integer  "user_id"
@@ -54,4 +79,6 @@ ActiveRecord::Schema.define(version: 20151205060833) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "chat_room_messages", "chat_rooms"
+  add_foreign_key "chat_room_messages", "users"
 end

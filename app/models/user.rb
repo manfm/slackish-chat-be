@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   before_save -> { skip_confirmation! }
 
   has_many :private_messages
+  has_and_belongs_to_many :chat_rooms
 end

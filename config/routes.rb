@@ -7,15 +7,22 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   # Example of regular route:
-    # get 'products/:id' => 'catalog#view'
+  # get 'products/:id' => 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   resources :users
   resources :private_messages
+  resources :chat_rooms
   # get 'users' => 'users#index'
   # get 'users/:userId' => 'users#show'
   get 'users/:userId/friends/:friendId/messages' => 'private_messages#conversation'
   post 'users/:userId/friends/:friendId/messages' => 'private_messages#create'
+
+  get 'users/:userId/chat_rooms' => 'chat_rooms#index'
+  post 'users/:userId/chat_rooms' => 'chat_rooms#create'
+
+  get 'users/:userId/chat_rooms/:chatRoomId/messages' => 'chat_room_messages#conversation'
+  post 'users/:userId/chat_rooms/:chatRoomId/messages' => 'chat_room_messages#new_message'
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
 
