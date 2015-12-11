@@ -5,16 +5,6 @@ class ChatController < WebsocketRails::BaseController
     controller_store[:online] = []
   end
 
-  # def get_channel_key
-  #   if user_signed_in?
-  #     key = current_user.channel_key
-  #     WebsocketRails[key].make_private
-  #     send_message :key, key, namespace: :user
-  #   else
-  #     send_message :key, nil, namespace: :user
-  #   end
-  # end
-
   def authorize_user_channel
     if user_signed_in? && current_user.tokens.key?(message[:channel])
       controller_store[:online][current_user.id] = current_user.id

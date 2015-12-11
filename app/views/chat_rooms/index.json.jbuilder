@@ -1,4 +1,4 @@
 json.array!(@chat_rooms) do |chat_room|
-  json.extract! chat_room, :id, :name, :last_message_at
-  json.url chat_room_url(chat_room, format: :json)
+  json.extract! chat_room, :id, :name, :last_message_at, :created_at
+  json.users chat_room.users, :id, :uid, :email
 end

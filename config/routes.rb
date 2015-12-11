@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   post 'users/:userId/chat_rooms' => 'chat_rooms#create'
 
   get 'users/:userId/chat_rooms/:chatRoomId/messages' => 'chat_room_messages#conversation'
-  post 'users/:userId/chat_rooms/:chatRoomId/messages' => 'chat_room_messages#new_message'
+  post 'users/:userId/chat_rooms/:chatRoomId/messages' => 'chat_room_messages#create'
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
 
