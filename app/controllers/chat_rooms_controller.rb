@@ -2,12 +2,11 @@ class ChatRoomsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @chat_rooms = User.find(params[:userId]).chat_rooms.order(last_message_at: :desc)
+    @chat_rooms = ChatRoom.for_user params[:userId]
   end
 
   def create
-    name = params[:name].to_s
-    @chat_room = ChatRoom.new(name: name, last_message_at: DateTime.current)
+    @chat_room = ChatRoom.new(name: params[:name].to_s)
 
     params[:users].each do |id|
       user = User.find(id)
