@@ -7,7 +7,12 @@ class ChatRoomsController < ApplicationController
   end
 
   def create
-    # render json: 'required min 2 users', status: :unprocessable_entity if (users.size < 2)
+    if params[:users].to_a.size < 2
+      render json: {
+        users: ["Please select at least 2 users for chat room"]
+      }, status: :unprocessable_entity
+      return
+    end
 
     begin
       @chat_room = ChatRoomService.create_new_chat_room params[:name].to_s, params[:users].to_a
