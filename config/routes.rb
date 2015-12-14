@@ -15,14 +15,14 @@ Rails.application.routes.draw do
   resources :chat_rooms
   # get 'users' => 'users#index'
   # get 'users/:userId' => 'users#show'
-  get 'users/:userId/friends/:friendId/messages' => 'private_messages#conversation'
-  post 'users/:userId/friends/:friendId/messages' => 'private_messages#create'
+  get 'users/:user_id/friends/:friend_id/messages' => 'private_messages#conversation'
+  post 'users/:user_id/friends/:friend_id/messages' => 'private_messages#create'
 
-  get 'users/:userId/chat_rooms' => 'chat_rooms#index'
-  post 'users/:userId/chat_rooms' => 'chat_rooms#create'
+  get 'users/:user_id/chat_rooms' => 'chat_rooms#index'
+  post 'users/:user_id/chat_rooms' => 'chat_rooms#create'
 
-  get 'users/:userId/chat_rooms/:chatRoomId/messages' => 'chat_room_messages#conversation'
-  post 'users/:userId/chat_rooms/:chatRoomId/messages' => 'chat_room_messages#create'
+  get 'users/:user_id/chat_rooms/:chat_room_id/messages' => 'chat_room_messages#conversation'
+  post 'users/:user_id/chat_rooms/:chat_room_id/messages' => 'chat_room_messages#create'
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
 

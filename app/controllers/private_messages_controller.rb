@@ -2,23 +2,22 @@ class PrivateMessagesController < ApplicationController
   before_action :authenticate_user!
 
   def conversation
-    @private_messages = PrivateMessage.for_user_from_user params[:userId], params[:friendId]
+    @private_messages = PrivateMessage.for_user_from_user params[:user_id], params[:friend_id]
 
     render :index
   end
 
   def create
-    message_to_send = PrivateMessageService.create_message_for_friend params[:text], params[:friendId], params[:userId]
-    my_message = PrivateMessageService.duplicate_friends_message_for_sender message_to_send
-    @private_message = my_message
+    begin
+      @private_message = PrivateMessageService.create_new_message params[:text].to_s, params[:friend_id].to_i, params[:user_id].to_i
+    rescue ActiveRecord::RecordInvalid => invalid
+      validation_errors = invalid.record.errors
+    end
 
-    if message_to_send.save && my_message.save
-      NotificationService.push_to_user User.find(message_to_send.user_id), 'new_message', message_to_send
-      NotificationService.push_to_user current_user, 'new_message', my_message
-
+    if !validation_errors
       render :show, status: :created
     else
-      render json: message_to_send.errors, status: :unprocessable_entity
+      render json: validation_errors, status: :unprocessable_entity
     end
   end
 end

@@ -2,22 +2,22 @@ class ChatRoomsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @chat_rooms = ChatRoom.for_user params[:userId]
+    @chat_rooms = ChatRoom.for_user params[:user_id]
   end
 
   def create
-    @chat_room = ChatRoom.new(name: params[:name].to_s)
+    # render json: 'required min 2 users', status: :unprocessable_entity if (users.size < 2)
 
-    params[:users].each do |id|
-      user = User.find(id)
-      user.chat_rooms << @chat_room
-      user.save
+    begin
+      @chat_room = ChatRoomService.create_new_chat_room params[:name].to_s, params[:users].to_a
+    rescue ActiveRecord::RecordInvalid => invalid
+      validation_errors = invalid.record.errors
     end
 
-    if @chat_room.save
+    if !validation_errors
       render :show, status: :created
     else
-      render json: @chat_room.errors, status: :unprocessable_entity
+      render json: validation_errors, status: :unprocessable_entity
   end
   end
 
