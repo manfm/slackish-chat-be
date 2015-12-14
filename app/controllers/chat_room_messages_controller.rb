@@ -1,5 +1,6 @@
 class ChatRoomMessagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_acl_rights!
 
   def conversation
     @chat_room_messages = ChatRoomMessage.for_user_in_room params[:user_id], params[:chat_room_id]

@@ -1,5 +1,6 @@
 class PrivateMessagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_acl_rights!
 
   def conversation
     @private_messages = PrivateMessage.for_user_from_user params[:user_id], params[:friend_id]

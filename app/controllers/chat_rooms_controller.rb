@@ -1,5 +1,6 @@
 class ChatRoomsController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_acl_rights!
 
   def index
     @chat_rooms = ChatRoom.for_user params[:user_id]
@@ -18,7 +19,7 @@ class ChatRoomsController < ApplicationController
       render :show, status: :created
     else
       render json: validation_errors, status: :unprocessable_entity
-  end
+    end
   end
 
   def destroy
