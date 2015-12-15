@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20151208125753) do
     t.string   "text"
     t.boolean  "incomming"
     t.integer  "sender_id"
+    t.string   "sender_name"
     t.integer  "user_id"
     t.integer  "chat_room_id"
     t.datetime "created_at",   null: false

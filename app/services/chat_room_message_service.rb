@@ -1,5 +1,7 @@
 class ChatRoomMessageService
   def self.create_new_message(text, sender_id, room_id)
+    sender_name = User.find(sender_id).email
+
     chat_room = ChatRoom.find(room_id)
     chat_room.last_message_at = DateTime.current
 
@@ -7,7 +9,7 @@ class ChatRoomMessageService
     chat_room.users.each do |chat_room_user|
       next if chat_room_user.id == sender_id
 
-      message_to_send = create_message_for_friend text, chat_room_user.id, sender_id, room_id
+      message_to_send = create_message_for_friend text, chat_room_user.id, sender_id, sender_name, room_id
       messages_to_send << message_to_send
     end
 
@@ -27,12 +29,13 @@ class ChatRoomMessageService
     my_message
   end
 
-  def self.create_message_for_friend(text, friend_id, sender_id, chatroom_id)
+  def self.create_message_for_friend(text, friend_id, sender_id, sender_name, chatroom_id)
     message_to_send = ChatRoomMessage.new
     message_to_send.text = text
     message_to_send.user_id = friend_id
     message_to_send.chat_room_id = chatroom_id
     message_to_send.sender_id = sender_id
+    message_to_send.sender_name = sender_name
     message_to_send.incomming = true
 
     message_to_send
